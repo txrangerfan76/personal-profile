@@ -92,6 +92,19 @@ nav .container {
     }
 }
 
+/* Add this to your existing navigation CSS */
+.nav-menu a.active {
+    background-color: #667eea;
+    color: white;
+}
+
+/* You might also want to add a different style to distinguish it from hover */
+.nav-menu a.active {
+    background-color: #5a6bd8;
+    color: white;
+    font-weight: 600;
+}
+
 /* Section Styles */
 section {
     padding: 3rem 2rem;

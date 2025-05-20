@@ -158,28 +158,30 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add active state to navigation on scroll
     window.addEventListener('scroll', function() {
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('nav a[href^="#"]');
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+    
+    let current = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
         
-        let current = '';
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            
-            if (window.scrollY >= sectionTop - 200) {
-                current = section.getAttribute('id');
-            }
-        });
-        
-        // Update active navigation link
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
+        // Adjust the offset to account for the sticky navigation
+        if (window.scrollY >= sectionTop - 100) {
+            current = section.getAttribute('id');
+        }
     });
+    
+    // Update active navigation link
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        const linkTarget = link.getAttribute('href').substring(1); // Remove the # symbol
+        if (linkTarget === current) {
+            link.classList.add('active');
+        }
+    });
+});
     
     // Add some interactive hover effects
     const projectCards = document.querySelectorAll('.project-card');
@@ -197,5 +199,5 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Console message for developers
     console.log('🚀 Portfolio loaded successfully!');
-    console.log('💡 Check out the source code: github.com/yourusername/portfolio');
+    console.log('💡 Check out the source code on GitHub!');
 });
