@@ -1,6 +1,42 @@
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     
+    // Mobile menu toggle
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    const nav = document.querySelector('nav');
+
+    if (mobileMenuToggle && navMenu) {
+        mobileMenuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            navMenu.classList.toggle('active');
+            
+            // Change hamburger icon to X when open
+            if (navMenu.classList.contains('active')) {
+                this.innerHTML = '✕';
+            } else {
+                this.innerHTML = '☰';
+            }
+        });
+        
+        // Close menu when clicking on a link
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                mobileMenuToggle.innerHTML = '☰';
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (nav && !nav.contains(event.target)) {
+                navMenu.classList.remove('active');
+                mobileMenuToggle.innerHTML = '☰';
+            }
+        });
+    }
+    
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     
@@ -158,30 +194,30 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add active state to navigation on scroll
     window.addEventListener('scroll', function() {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('nav a[href^="#"]');
-    
-    let current = '';
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav a[href^="#"]');
         
-        // Adjust the offset to account for the sticky navigation
-        if (window.scrollY >= sectionTop - 100) {
-            current = section.getAttribute('id');
-        }
+        let current = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            
+            // Adjust the offset to account for the sticky navigation
+            if (window.scrollY >= sectionTop - 100) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        // Update active navigation link
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const linkTarget = link.getAttribute('href').substring(1); // Remove the # symbol
+            if (linkTarget === current) {
+                link.classList.add('active');
+            }
+        });
     });
-    
-    // Update active navigation link
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        const linkTarget = link.getAttribute('href').substring(1); // Remove the # symbol
-        if (linkTarget === current) {
-            link.classList.add('active');
-        }
-    });
-});
     
     // Add some interactive hover effects
     const projectCards = document.querySelectorAll('.project-card');
